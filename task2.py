@@ -100,19 +100,109 @@
 # view_expenses()
             
             
+# import csv
+
+# def total_spent():
+
+#     total = 0
+
+#     with open("expenses.csv", "r") as f:
+
+#         reader = csv.reader(f)
+
+#         for row in reader:
+
+#             total = total + int(row[1])
+
+#     print("Total =", total)
+# total_spent()
+
+
+# systamatic task 2 project
+
 import csv
+#add expenses function
 
+def add_expenses():
+    desc = input("enter description :")
+    
+    try:
+        amount = float(input("enter amount :"))
+        with open("expenses.csv", "a", newline="") as f:
+            writer = csv.writer(f)
+            writer.writerow([desc, amount])
+        print("expenses add succesfully! ")
+    except ValueError:
+        print("invalid amount, add valid number")
+#view expenses function
+def view_expenses():
+    try:
+        with open("expenses.csv", "r") as f:
+            reader = csv.reader(f)
+            print("\n-----------expenses-----------")
+            for row in reader :
+                print(row[0], "-", row[1])
+    except FileNotFoundError:
+        print("No expenses found")
+        
+#Total expenses function
 def total_spent():
-
     total = 0
+    try:
+        with open("expenses.csv", "r") as f:
+            reader = csv.reader(f)
+            for row in reader:
+                total = total + float(row[1])
+                print("\nTotal Spent =", total)
 
-    with open("expenses.csv", "r") as f:
+    except FileNotFoundError:
 
-        reader = csv.reader(f)
+        print("No expenses found.")
 
-        for row in reader:
+#main function
+def main():
 
-            total = total + int(row[1])
+    while True:
 
-    print("Total =", total)
-total_spent()
+        print("\n===== Expense Tracker =====")
+
+        print("1. Add Expense")
+        print("2. View Expenses")
+        print("3. View Total Spent")
+        print("4. Exit")
+
+        choice = input("Enter Choice: ")
+
+        if choice == "1":
+
+            add_expenses()
+
+        elif choice == "2":
+
+            view_expenses()
+
+        elif choice == "3":
+
+            total_spent()
+
+        elif choice == "4":
+
+            print("Program Closed")
+            break
+
+        else:
+
+            print("Invalid Choice")
+
+
+# Program Start
+main()
+
+        
+        
+        
+        
+        
+            
+        
+    
