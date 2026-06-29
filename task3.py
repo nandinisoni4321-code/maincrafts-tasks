@@ -1,25 +1,31 @@
 import csv
+
+
+# ------------------ Add Expense ------------------
+
 def add_expense():
 
     desc = input("Enter Description: ")
 
     try:
         amount = float(input("Enter Amount: "))
-
         category = input("Enter Category: ")
+        month = input("Enter Month: ")
 
         with open("expenses.csv", "a", newline="") as f:
 
             writer = csv.writer(f)
 
-            writer.writerow([desc, amount, category])
+            writer.writerow([desc, amount, category, month])
 
-        print("Expense Added Successfully!")
+        print("\nExpense Added Successfully!\n")
 
     except ValueError:
 
-        print("Invalid Amount. Please enter a valid number.")
-add_expense()
+        print("\nInvalid Amount! Please enter a valid number.\n")
+
+
+# ------------------ View Expenses ------------------
 
 def view_expenses():
 
@@ -29,22 +35,30 @@ def view_expenses():
 
             reader = csv.reader(f)
 
-            print("\n----- Expenses -----")
+            print("\n========== ALL EXPENSES ==========\n")
 
             for row in reader:
 
+                print("--------------------------------")
                 print("Description :", row[0])
                 print("Amount      :", row[1])
                 print("Category    :", row[2])
-                print()
+                print("Month       :", row[3])
+
+            print("--------------------------------")
 
     except FileNotFoundError:
 
         print("No expenses found.")
-view_expenses()
+
+
+# ------------------ Search Category ------------------
+
 def search_category():
 
-    category = input("Enter Category: ")
+    category = input("Enter Category to Search: ")
+
+    found = False
 
     try:
 
@@ -52,21 +66,30 @@ def search_category():
 
             reader = csv.reader(f)
 
-            print("\n----- Matching Expenses -----")
+            print("\n===== SEARCH RESULT =====\n")
 
             for row in reader:
 
                 if row[2].lower() == category.lower():
 
+                    print("--------------------------------")
                     print("Description :", row[0])
                     print("Amount      :", row[1])
                     print("Category    :", row[2])
-                    print()
+                    print("Month       :", row[3])
+
+                    found = True
+
+            if not found:
+
+                print("No Expense Found.")
 
     except FileNotFoundError:
 
         print("No expenses found.")
-search_category()
+
+
+# ------------------ Total Per Category ------------------
 
 def total_per_category():
 
@@ -86,23 +109,53 @@ def total_per_category():
 
                     total += float(row[1])
 
-        print("Total", category, "Expense =", total)
+        print("\nTotal", category, "Expense =", total)
 
     except FileNotFoundError:
 
         print("No expenses found.")
-total_per_category()
+
+
+# ------------------ Monthly Spending ------------------
+
+def monthly_spending():
+
+    month = input("Enter Month: ")
+
+    total = 0
+
+    try:
+
+        with open("expenses.csv", "r") as f:
+
+            reader = csv.reader(f)
+
+            for row in reader:
+
+                if row[3].lower() == month.lower():
+
+                    total += float(row[1])
+
+        print("\nTotal Spending in", month, "=", total)
+
+    except FileNotFoundError:
+
+        print("No expenses found.")
+
+
+# ------------------ Main Menu ------------------
 
 def main():
 
     while True:
 
-        print("\n===== Expense Tracker =====")
+        print("\n========== EXPENSE TRACKER ==========")
         print("1. Add Expense")
         print("2. View Expenses")
         print("3. Search by Category")
         print("4. Total Per Category")
-        print("5. Exit")
+        print("5. Monthly Spending")
+        print("6. Exit")
 
         choice = input("Enter Choice: ")
 
@@ -124,10 +177,18 @@ def main():
 
         elif choice == "5":
 
-            print("Program Closed")
+            monthly_spending()
+
+        elif choice == "6":
+
+            print("\nProgram Closed Successfully!")
             break
 
         else:
 
-            print("Invalid Choice")
+            print("\nInvalid Choice! Please Try Again.")
+
+
+# ------------------ Program Starts ------------------
+
 main()
