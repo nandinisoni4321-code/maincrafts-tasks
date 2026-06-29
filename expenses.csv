@@ -1,5 +1,8 @@
-lunch,120
-lunch,120
-Lunch,120
-Movie,250
-lunch,120.0
+lunch,120.0,food
+bus,500.0,travel
+movie,250.0,entertainment
+burger,50.0,food
+pizza,99.0,food
+coffee,60.0,food
+train,100.0,travel
+flight,1000.0,travel
